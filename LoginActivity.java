@@ -30,7 +30,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.user.tapbar.clientViewModel.MapsActivity;
 import com.example.user.tapbar.ownerViewModel.OwnerActivity;
+import com.example.user.tapbar.ownerViewModel.ReservationsListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,9 +193,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
            // mAuthTask = new UserLoginTask(email, password);
            // mAuthTask.execute((Void) null);
-            Intent intent = new Intent(this, OwnerActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, "");
-            startActivity(intent);
+            if(email.endsWith("admin@")) {
+                Intent intent = new Intent(this, OwnerActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, "");
+
+                MyFirebaseInstanceIDService.init(this);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, ReservationsListActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, "");
+                startActivity(intent);
+            }
         }
     }
 

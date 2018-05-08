@@ -2,6 +2,7 @@ package com.example.user.tapbar.ownerViewModel.components;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.NumberPicker;
 
 import com.example.user.tapbar.R;
@@ -30,5 +31,15 @@ public class NewTableActivity extends AppCompatActivity {
             //Display the newly selected number from picker
             newTable.setSize(newVal);
         });
+    }
+
+    public void click(View view) {
+        switch (view.getId())
+        {
+            case R.id.button:
+                break;
+            case R.id.button2:
+                break;
+        }
     }
 }

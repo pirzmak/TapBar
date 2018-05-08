@@ -7,6 +7,7 @@ import com.example.user.tapbar.utils.HttpService;
 import com.example.user.tapbar.utils.MyCallbackInterface;
 import com.example.user.tapbar.utils.User;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class UserRepository {
@@ -18,7 +19,7 @@ public class UserRepository {
     }
 
     private void get(String url,
-                     final MyCallbackInterface<JSONObject> onSuccess,
+                     final MyCallbackInterface<JSONArray> onSuccess,
                      final MyCallbackInterface<VolleyError> onFailure){
         HttpService.getInstance(this.context).HTTPGetRequest(ownerRepUrl + url, onSuccess, onFailure);
     }

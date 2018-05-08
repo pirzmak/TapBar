@@ -8,12 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.example.user.tapbar.MyFirebaseInstanceIDService;
 import com.example.user.tapbar.R;
 import com.example.user.tapbar.ownerViewModel.components.MyTableListAdapter;
 import com.example.user.tapbar.ownerServices.OwnerRepository;
 
 import org.json.JSONException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class OwnerActivity extends AppCompatActivity {
@@ -32,6 +34,8 @@ public class OwnerActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        MyFirebaseInstanceIDService.init(this);
 
         repository = new OwnerRepository(getApplicationContext());
 

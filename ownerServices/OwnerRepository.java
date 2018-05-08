@@ -10,6 +10,7 @@ import com.example.user.tapbar.utils.MyCallbackInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,7 +39,7 @@ public class OwnerRepository {
     }
 
     private void get(String url,
-                     final MyCallbackInterface<JSONObject> onSuccess,
+                     final MyCallbackInterface<JSONArray> onSuccess,
                      final MyCallbackInterface<VolleyError> onFailure) {
         HttpService.getInstance(this.context).HTTPGetRequest(ownerRepUrl + url, onSuccess, onFailure);
     }
