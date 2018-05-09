@@ -3,6 +3,7 @@ package com.example.user.tapbar;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,10 +30,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.user.tapbar.clientViewModel.MapsActivity;
+import com.example.user.tapbar.ownerViewModel.OwnerActivity;
+import com.example.user.tapbar.ownerViewModel.ReservationsListActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 /**
  * A login screen that offers login via email/password.
@@ -185,8 +191,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+           // mAuthTask = new UserLoginTask(email, password);
+           // mAuthTask.execute((Void) null);
+            if(email.endsWith("admin@")) {
+                Intent intent = new Intent(this, OwnerActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, "");
+
+                MyFirebaseInstanceIDService.init(this);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, ReservationsListActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, "");
+                startActivity(intent);
+            }
         }
     }
 
