@@ -14,7 +14,7 @@ public class AppSingleton {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mCtx;
-    private static String myUrl = "https://8e2240bf.ngrok.io";
+    private static String myUrl = "https://a19addf9.ngrok.io";
 
     private AppSingleton(Context context) {
         mCtx = context;

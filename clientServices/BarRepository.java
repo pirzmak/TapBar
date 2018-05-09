@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 public class BarRepository {
     private Context context;
-    private static final String BAR_URL = "https://8e2240bf.ngrok.io/";
+    private static final String BAR_URL = "https://a19addf9.ngrok.io/";
 
     ArrayList<Place> bars = new ArrayList<>();
     ArrayList<Reservation> reservations = new ArrayList<>();
@@ -40,6 +40,19 @@ public class BarRepository {
                       final MyCallbackInterface<JSONObject> onSuccess,
                       final MyCallbackInterface<VolleyError> onFailure) {
         HttpService.getInstance(this.context).HTTPPostRequest(BAR_URL + url, body, onSuccess, onFailure);
+    }
+
+    public void isReserved(final MyCallbackInterface<ArrayList<Place>> onSuccess,
+                        final MyCallbackInterface<VolleyError> onFailure) {
+        get("reservations/reserved", (JSONArray response) -> {
+            Gson gson = new GsonBuilder().create();
+            PlaceServerModel[] b = gson.fromJson(response.toString(), PlaceServerModel[].class);
+            ArrayList<Place> res = new ArrayList<>();
+            for(int i = 0; i<b.length; ++i) {
+                if(b[i].getName().equals("SuperBar"))
+                    res.add(new Place(b[i]));
+            }
+            onSuccess.apply(res);}, onFailure);
     }
 
     public void getBars(final MyCallbackInterface<ArrayList<Place>> onSuccess,

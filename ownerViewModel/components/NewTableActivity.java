@@ -6,13 +6,18 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import com.example.user.tapbar.R;
+import com.example.user.tapbar.ownerServices.OwnerRepository;
 import com.example.user.tapbar.ownerViewModel.Table;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
 public class NewTableActivity extends AppCompatActivity {
 
     private Table newTable;
+
+    private OwnerRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,16 @@ public class NewTableActivity extends AppCompatActivity {
     public void click(View view) {
         switch (view.getId())
         {
-            case R.id.button:
-                break;
             case R.id.button2:
+                try {
+                    repository.addTable(newTable, (r) -> {}, (r) -> {});
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                finish();
+                break;
+            case R.id.button:
+                finish();
                 break;
         }
     }

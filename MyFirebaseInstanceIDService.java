@@ -55,7 +55,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        HttpService.getInstance(this.context).HTTPGetRequest("https://8e2240bf.ngrok.io/reservations/android/"+refreshedToken, (q) -> {}, (q) -> {});
+        HttpService.getInstance(this.context).HTTPGetRequest("https://a19addf9.ngrok.io/reservations/android/"+refreshedToken, (q) -> {}, (q) -> {});
 
     }
     // [END refresh_token]

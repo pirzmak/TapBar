@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.tapbar.MessageReceiver;
 import com.example.user.tapbar.MyFirebaseInstanceIDService;
 import com.example.user.tapbar.R;
 import com.example.user.tapbar.clientServices.BarRepository;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -74,6 +76,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     AutoCompleteTextView searchBar;
     Button locationBtn;
 
+    boolean reserved = false;
+
     BarRepository barRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         searchBar = (AutoCompleteTextView) findViewById(R.id.search);
         locationBtn = (Button) findViewById(R.id.gps);
+
+        Intent i = getIntent();
+        reserved = i.getBooleanExtra(MessageReceiver.RESERVED,false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -271,21 +278,49 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void addPlacesFromServer() {
         Log.d(TAG, "addPlacesFromServer: begin");
+        this.barRepository.isReserved((b) -> {
+            if(b.size() == 1) {
+                this.places = b;
+                String[] Nazwy = new String[places.size()];
+                for (int i=0;i<places.size();i++)
+                    Nazwy[i]= places.get(i).getName();
+                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Nazwy);
+                searchBar.setAdapter(adapter);
+                for (int i=0; i<places.size();i++) {
+                    Marker m = mMap.addMarker(new MarkerOptions().
+                            position(places.get(i).getPos()).
+                            title(places.get(i).getName()).
+                            icon(BitmapDescriptorFactory
+                                    .fromResource(R.drawable.radar)).
+                            snippet(places.get(i).getAddress()));
+                    markers.put(m, places.get(i));
+            }  } else
         this.barRepository.getBars((bars) -> {
-            this.places = bars;
+            if(reserved) {
+                this.places = new ArrayList<>();
+                for (int i=0;i<bars.size();i++)
+                    if(bars.get(i).getName().equals("SuperBar"))
+                        this.places.add(bars.get(i));
+            } else {
+                this.places = bars;
+            }
             String[] Nazwy = new String[places.size()];
             for (int i=0;i<places.size();i++)
                 Nazwy[i]= places.get(i).getName();
             adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Nazwy);
             searchBar.setAdapter(adapter);
             for (int i=0; i<places.size();i++) {
+                int icon = reserved ? R.drawable.radar : places.get(i).getAvaliableTables() == 0 ? R.drawable.bar :
+                        places.get(i).getAvaliableTables() <= 5 ? R.drawable.bar_notfull : R.drawable.bar_free;
                 Marker m = mMap.addMarker(new MarkerOptions().
                         position(places.get(i).getPos()).
                         title(places.get(i).getName()).
+                        icon(BitmapDescriptorFactory
+                                        .fromResource(icon)).
                         snippet(places.get(i).getAddress()));
                 markers.put(m, places.get(i));
 
-            }}, (failure) -> {});
+            }}, (failure) -> {});}, (f)->{});
     }
 
     private void getDeviceLocation(){

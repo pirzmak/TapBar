@@ -12,11 +12,13 @@ import com.example.user.tapbar.R;
 
 import java.util.Calendar;
 
+import static com.example.user.tapbar.clientViewModel.ReservationActivity.end;
 import static com.example.user.tapbar.clientViewModel.ReservationActivity.godzinaP;
 import static com.example.user.tapbar.clientViewModel.ReservationActivity.minutaP;
 
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -31,7 +33,12 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        TextView godz = (TextView) getActivity().findViewById(R.id.hour_btn);
+        TextView godz;
+        if(end) {
+            godz = (TextView) getActivity().findViewById(R.id.hour_end_btn);
+        } else {
+            godz = (TextView) getActivity().findViewById(R.id.hour_btn);
+        }
         if (minute<10)
             godz.setText(hourOfDay+":0"+minute);
         else
