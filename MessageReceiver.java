@@ -17,6 +17,7 @@ public class MessageReceiver extends FirebaseMessagingService {
     private static final int REQUEST_CODE = 1;
     private static final int NOTIFICATION_ID = 6578;
     private static final String TAG = "MessageReceiver";
+    public static final String RESERVED = "com.example.user.tabbar.RESERVED";
 
     public MessageReceiver() {
         super();
@@ -39,8 +40,10 @@ public class MessageReceiver extends FirebaseMessagingService {
         Intent i;
         if(type.equals("Owner")) {
             i = new Intent(this, ReservationsListActivity.class);
+            i.putExtra(RESERVED, true);
         } else {
             i = new Intent(this, MapsActivity.class);
+            i.putExtra(RESERVED, title.equals("Rezerwacja zaakceptowana"));
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE,

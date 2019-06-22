@@ -21,6 +21,7 @@ import java.util.Date;
 public class ReservationActivity extends AppCompatActivity {
 
     Button hourBtn;
+    Button hourEndBtn;
     Button plusBtn;
     Button minusBtn;
     Button rezerwacjaBtn;
@@ -33,6 +34,7 @@ public class ReservationActivity extends AppCompatActivity {
 
     public  static int godzinaP=0;
     public  static int minutaP=0;
+    public static boolean end = false;
     private int liczba = 2;
 
     BarRepository barRepository;
@@ -50,6 +52,7 @@ public class ReservationActivity extends AppCompatActivity {
 
     private void init(){
         hourBtn = findViewById(R.id.hour_btn);
+        hourEndBtn = findViewById(R.id.hour_end_btn);
         plusBtn = findViewById(R.id.plus);
         minusBtn = findViewById(R.id.minus);
         rezerwacjaBtn = findViewById(R.id.rezerwuj_btn);
@@ -66,12 +69,18 @@ public class ReservationActivity extends AppCompatActivity {
             h++;
             m = m-60;
         }
-        if(m<10)
-            hourBtn.setText(h+":0"+m);
-        else
-            hourBtn.setText(h+":"+m);
-        if (szybka)
+        if(m<10) {
+            hourBtn.setText(h + ":0" + m);
+            hourEndBtn.setText((h + 1) + ":0" + m);
+        }
+        else {
+            hourBtn.setText(h + ":" + m);
+            hourEndBtn.setText((h + 1) + ":" + m);
+        }
+        if (szybka) {
             hourBtn.setEnabled(false);
+            hourEndBtn.setEnabled(false);
+        }
         liczbaLudzi.setText("2");
         miasto.setText(miejsce.getCity());
         adres.setText(miejsce.getAddress());
@@ -79,6 +88,12 @@ public class ReservationActivity extends AppCompatActivity {
 
     }
     public void hourFun(View view) {
+        end = false;
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getFragmentManager(),"TimePicker");
+    }
+    public void hourFun2(View view) {
+        end = true;
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(),"TimePicker");
     }
@@ -102,7 +117,7 @@ public class ReservationActivity extends AppCompatActivity {
         try {
             this.barRepository.addReservation(new Reservation(new User(12,"Adam"),
                     new Date(2018,6,8,godzinaP,minutaP),
-                    new Date(2018,6,8,godzinaP,minutaP), liczba),(a) -> {}, (a) -> {});
+                    new Date(2018,6,8,godzinaP+1,minutaP), liczba, miejsce.getId()),(a) -> {}, (a) -> {});
         } catch (JSONException e) {
             e.printStackTrace();
         }

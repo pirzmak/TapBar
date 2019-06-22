@@ -16,6 +16,7 @@ public class Place implements Parcelable{
     private int avaliableTables;
     private int allTables;
     private int color;
+    private String _id;
 
 
     public Place(double ltt, double lon, String nn, String add){
@@ -50,6 +51,7 @@ public class Place implements Parcelable{
         this.city = p.getCity();
         this.avaliableTables = p.getAvaliableTables();
         this.allTables = p.getAllTables();
+        this._id = p.getId();
     }
 
     protected Place(Parcel in) {
@@ -86,6 +88,18 @@ public class Place implements Parcelable{
 
     public String getCity() {
         return city;
+    }
+
+    public int getAvaliableTables() {
+        return avaliableTables;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public int getAllTables() {
+        return allTables;
     }
 
     @Override

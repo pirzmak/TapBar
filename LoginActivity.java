@@ -194,13 +194,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
            // mAuthTask = new UserLoginTask(email, password);
            // mAuthTask.execute((Void) null);
             if(email.endsWith("admin@")) {
-                Intent intent = new Intent(this, OwnerActivity.class);
+                Intent intent = new Intent(this, ReservationsListActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, "");
 
                 MyFirebaseInstanceIDService.init(this);
                 startActivity(intent);
             } else {
-                Intent intent = new Intent(this, ReservationsListActivity.class);
+                Intent intent = new Intent(this, MapsActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, "");
                 startActivity(intent);
             }

@@ -11,6 +11,7 @@ public class Reservation {
     Date to;
     int numberGosts;
     String _id;
+    String barId;
 
     public Reservation(String name){
         this.person = new User(1, name);
@@ -18,20 +19,13 @@ public class Reservation {
         this.to = new Date(118,3,17,1,30);
     }
 
-    public Reservation(User person, Date from, Date to, int numberGosts, String id) {
-        this.person = person;
-        this.from = from;
-        this.to = to;
-        this.numberGosts = numberGosts;
-        this._id = id;
-    }
-
-    public Reservation(User person, Date from, Date to, int numberGosts) {
+    public Reservation(User person, Date from, Date to, int numberGosts, String barId) {
         this.person = person;
         this.from = from;
         this.to = to;
         this.numberGosts = numberGosts;
         this._id = null;
+        this.barId = barId;
     }
 
 

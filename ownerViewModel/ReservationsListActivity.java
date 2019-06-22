@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.user.tapbar.MyFirebaseInstanceIDService;
 import com.example.user.tapbar.R;
@@ -41,21 +43,39 @@ public class ReservationsListActivity extends AppCompatActivity {
         repository.getReservations((reservations) -> {
             this.reservations = reservations;
 
-            recyclerView.setAdapter(new MyReservationsListAdapter(reservations, recyclerView,
-                    (accept) -> {
-                        try {
-                            this.repository.acceptReservation(accept,(r) -> {},(r) -> {});
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    },
-                    (cancel) -> {
-                        try {
-                            this.repository.cancelReservation(cancel,(r) -> {},(r) -> {});
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }));
+            if(reservations.size() == 0) {
+                recyclerView.setVisibility(View.INVISIBLE);
+                ((TextView) findViewById(R.id.textView)).setVisibility(View.VISIBLE);
+            } else {
+                ((TextView) findViewById(R.id.textView)).setVisibility(View.INVISIBLE);
+                recyclerView.setAdapter(new MyReservationsListAdapter(reservations, recyclerView,
+                        (accept) -> {
+                            try {
+                                this.repository.acceptReservation(accept, (r) -> {
+                                }, (r) -> {
+                                });
+                                if(reservations.size() == 0) {
+                                    recyclerView.setVisibility(View.INVISIBLE);
+                                    ((TextView) findViewById(R.id.textView)).setVisibility(View.VISIBLE);
+                                };
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        },
+                        (cancel) -> {
+                            try {
+                                this.repository.cancelReservation(cancel, (r) -> {
+                                }, (r) -> {
+                                });
+                                if(reservations.size() == 0) {
+                                    recyclerView.setVisibility(View.INVISIBLE);
+                                    ((TextView) findViewById(R.id.textView)).setVisibility(View.VISIBLE);
+                                };
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }));
+            }
         }, (failure) -> {});
     }
 }

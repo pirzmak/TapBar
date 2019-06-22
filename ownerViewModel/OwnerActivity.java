@@ -1,5 +1,6 @@
 package com.example.user.tapbar.ownerViewModel;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,13 +11,17 @@ import android.view.View;
 
 import com.example.user.tapbar.MyFirebaseInstanceIDService;
 import com.example.user.tapbar.R;
+import com.example.user.tapbar.clientViewModel.MapsActivity;
 import com.example.user.tapbar.ownerViewModel.components.MyTableListAdapter;
 import com.example.user.tapbar.ownerServices.OwnerRepository;
+import com.example.user.tapbar.ownerViewModel.components.NewTableActivity;
 
 import org.json.JSONException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class OwnerActivity extends AppCompatActivity {
 
@@ -45,11 +50,9 @@ public class OwnerActivity extends AppCompatActivity {
 
         FloatingActionButton addNewTableButton = findViewById(R.id.addNewTable);
         addNewTableButton.setOnClickListener((View v) -> {
-            //try {
-                //this.repository.addTable(new Table(1,6,new ArrayList<Reservation>()), (c) -> {}, (c) -> {});
-                this.tables.add(new Table(1,6,new ArrayList<Reservation>()));
-                recyclerView.getAdapter().notifyDataSetChanged();
-           // }
+            Intent intent = new Intent(this, NewTableActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, "");
+            startActivity(intent);
         });
 
     }

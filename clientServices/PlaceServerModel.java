@@ -8,6 +8,7 @@ public class PlaceServerModel {
     private String city;
     private int avaliableTables;
     private int allTables;
+    private String _id;
 
     public PlaceServerModel(double ltt, double lon, String name, String address, String city, int avaliableTables, int allTables) {
         this.ltt = ltt;
@@ -45,5 +46,9 @@ public class PlaceServerModel {
 
     public int getAllTables() {
         return allTables;
+    }
+
+    public String getId() {
+        return _id;
     }
 }
